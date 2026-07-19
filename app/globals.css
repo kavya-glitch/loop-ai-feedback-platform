@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #09090b;
+  --foreground: #fafafa;
 }
 
 @theme inline {
@@ -12,15 +12,414 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+@keyframes landing-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes landing-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.landing-fade-in {
+  animation: landing-fade-in 0.7s ease-out both;
+}
+
+.landing-reveal {
+  animation: landing-reveal 0.8s ease-out both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}
+
+.landing-delay-1 {
+  animation-delay: 0.1s;
+}
+
+.landing-delay-2 {
+  animation-delay: 0.2s;
+}
+
+.landing-delay-3 {
+  animation-delay: 0.3s;
+}
+
+.landing-delay-4 {
+  animation-delay: 0.4s;
+}
+
+/* ── Auth page background animations ── */
+
+.auth-bg-root {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.auth-bg-base {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(16, 185, 129, 0.22), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 100% 50%, rgba(20, 184, 166, 0.12), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 0% 80%, rgba(52, 211, 153, 0.1), transparent 50%),
+    linear-gradient(to bottom, #0c0c0e, #09090b 40%, #0a0f0d);
+}
+
+@keyframes auth-blob-move-1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(60px, 40px) scale(1.15);
+  }
+  66% {
+    transform: translate(-30px, 70px) scale(0.9);
+  }
+}
+
+@keyframes auth-blob-move-2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-80px, -50px) scale(1.2);
+  }
+}
+
+@keyframes auth-blob-move-3 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  40% {
+    transform: translate(50px, -60px) scale(1.1);
+  }
+  80% {
+    transform: translate(-40px, 30px) scale(0.95);
+  }
+}
+
+@keyframes auth-mesh-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes auth-grid-scroll {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 64px;
+  }
+}
+
+@keyframes auth-orbit-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes auth-orbit-rotate-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes auth-core-glow {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 24px rgba(16, 185, 129, 0.8), 0 0 48px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    transform: scale(1.6);
+    box-shadow: 0 0 36px rgba(52, 211, 153, 1), 0 0 72px rgba(16, 185, 129, 0.5);
+  }
+}
+
+@keyframes auth-particle-rise {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(-28px);
+    opacity: 1;
+  }
+}
+
+@keyframes auth-beam-sweep {
+  0% {
+    transform: translateX(-120%) skewX(-12deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.7;
+  }
+  85% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(220%) skewX(-12deg);
+    opacity: 0;
+  }
+}
+
+@keyframes auth-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.auth-bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  will-change: transform;
+}
+
+.auth-bg-blob-1 {
+  top: -8%;
+  left: 15%;
+  width: min(480px, 70vw);
+  height: min(480px, 70vw);
+  background: rgba(16, 185, 129, 0.35);
+  animation: auth-blob-move-1 12s ease-in-out infinite;
+}
+
+.auth-bg-blob-2 {
+  bottom: 5%;
+  right: 5%;
+  width: min(420px, 65vw);
+  height: min(420px, 65vw);
+  background: rgba(20, 184, 166, 0.28);
+  animation: auth-blob-move-2 15s ease-in-out infinite;
+}
+
+.auth-bg-blob-3 {
+  top: 35%;
+  left: -5%;
+  width: min(320px, 50vw);
+  height: min(320px, 50vw);
+  background: rgba(52, 211, 153, 0.22);
+  animation: auth-blob-move-3 18s ease-in-out infinite;
+}
+
+.auth-bg-mesh {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140vmax;
+  height: 140vmax;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    rgba(16, 185, 129, 0.06) 60deg,
+    transparent 120deg,
+    rgba(52, 211, 153, 0.05) 180deg,
+    transparent 240deg,
+    rgba(20, 184, 166, 0.06) 300deg,
+    transparent 360deg
+  );
+  animation: auth-mesh-spin 40s linear infinite;
+  opacity: 0.9;
+}
+
+.auth-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(16, 185, 129, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(16, 185, 129, 0.07) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, black 20%, transparent 80%);
+  animation: auth-grid-scroll 8s linear infinite;
+}
+
+.auth-bg-orbit-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-bg-orbit-spin {
+  position: absolute;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.auth-bg-orbit-spin-1 {
+  width: min(560px, 90vw);
+  height: min(560px, 90vw);
+  animation: auth-orbit-rotate 25s linear infinite;
+}
+
+.auth-bg-orbit-spin-2 {
+  width: min(400px, 70vw);
+  height: min(400px, 70vw);
+  animation: auth-orbit-rotate-reverse 18s linear infinite;
+}
+
+.auth-bg-orbit-spin-3 {
+  width: min(260px, 50vw);
+  height: min(260px, 50vw);
+  animation: auth-orbit-rotate 12s linear infinite;
+}
+
+.auth-bg-orbit-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(52, 211, 153, 0.25);
+}
+
+.auth-bg-orbit-ring-1 {
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.12);
+}
+
+.auth-bg-orbit-ring-2 {
+  border-style: dashed;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.auth-bg-orbit-ring-3 {
+  border-color: rgba(52, 211, 153, 0.4);
+  box-shadow: inset 0 0 40px rgba(16, 185, 129, 0.08);
+}
+
+.auth-bg-orbit-dot {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 14px #10b981, 0 0 28px rgba(16, 185, 129, 0.7);
+}
+
+.auth-bg-orbit-dot-dim {
+  background: #6ee7b7;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+.auth-bg-orbit-core {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #6ee7b7;
+  animation: auth-core-glow 3s ease-in-out infinite;
+  z-index: 1;
+}
+
+.auth-bg-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+  animation: auth-particle-rise 4s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.auth-bg-beam {
+  position: absolute;
+  top: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(16, 185, 129, 0.04),
+    rgba(52, 211, 153, 0.08),
+    rgba(16, 185, 129, 0.04),
+    transparent
+  );
+}
+
+.auth-bg-beam-1 {
+  animation: auth-beam-sweep 10s ease-in-out infinite;
+}
+
+.auth-bg-beam-2 {
+  animation: auth-beam-sweep 14s ease-in-out infinite 5s;
+}
+
+.auth-bg-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 30%,
+    rgba(9, 9, 11, 0.4) 70%,
+    rgba(9, 9, 11, 0.85) 100%
+  );
+}
+
+.auth-card-enter {
+  animation: auth-card-enter 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.auth-logo-enter {
+  animation: landing-fade-in 0.6s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-bg-blob,
+  .auth-bg-mesh,
+  .auth-bg-grid,
+  .auth-bg-orbit-spin,
+  .auth-bg-orbit-core,
+  .auth-bg-particle,
+  .auth-bg-beam,
+  .auth-card-enter,
+  .auth-logo-enter {
+    animation: none;
+  }
 }
