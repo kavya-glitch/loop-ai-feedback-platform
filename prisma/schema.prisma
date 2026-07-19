@@ -11,3 +11,118 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+enum Role {
+  ADMIN
+  ANALYST
+  VIEWER
+}
+
+enum Channel {
+  EMAIL
+  WEBSITE
+  PLAYSTORE
+  APPSTORE
+  TWITTER
+  LINKEDIN
+  MANUAL
+}
+
+enum Sentiment {
+  POSITIVE
+  NEGATIVE
+  NEUTRAL
+}
+
+enum FeedbackStatus {
+  PENDING
+  PROCESSED
+  ARCHIVED
+}
+model Workspace {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users      User[]
+  feedbacks  Feedback[]
+  themes     Theme[]
+  reports    Report[]
+}
+model User {
+  id          String    @id @default(cuid())
+  name        String
+  email       String    @unique
+  role        Role      @default(VIEWER)
+
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+model Feedback {
+  id          String         @id @default(cuid())
+  title       String
+  content     String
+
+  channel     Channel
+  sentiment   Sentiment?
+  status      FeedbackStatus @default(PENDING)
+
+  workspaceId String
+  workspace   Workspace      @relation(fields: [workspaceId], references: [id])
+
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  feedbackThemes FeedbackTheme[]
+  embedding      Embedding?
+}
+model Theme {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  feedbackThemes FeedbackTheme[]
+}
+model FeedbackTheme {
+  id         String   @id @default(cuid())
+
+  feedbackId String
+  themeId    String
+
+  confidence Float?
+
+  feedback   Feedback @relation(fields: [feedbackId], references: [id])
+  theme      Theme    @relation(fields: [themeId], references: [id])
+}
+model Embedding {
+  id          String   @id @default(cuid())
+
+  feedbackId  String   @unique
+  vector       Json
+
+  feedback    Feedback @relation(fields: [feedbackId], references: [id])
+
+  createdAt   DateTime @default(now())
+}
+model Report {
+  id          String   @id @default(cuid())
+
+  title       String
+  summary     String
+
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+
+  createdAt   DateTime @default(now())
+}
